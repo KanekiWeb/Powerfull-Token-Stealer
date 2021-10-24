@@ -1,6 +1,6 @@
 <p align='center'>
   <b>🐲 Follow me here 🐲</b><br>  
-  <a href="https://discord.gg/kaneki">Discord</a> |
+  <a href="https://discord.gg/P6b8ZFee9A">Discord</a> |
   <a href="https://www.youtube.com/channel/UC-XII5SSqbMOF1UX3N0Gl8g">YouTube</a> |
   <a href="https://github.com/KanekiWeb">Github</a><br><br>
 </p>
@@ -41,7 +41,7 @@
 
 ### 🧰 Support
 - Email: <kaneki_pro@protonmail.com>
-- Discord: https://discord.gg/JuEeGweHrb
+- Discord: https://discord.gg/P6b8ZFee9A
 
 ##  
 
