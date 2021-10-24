@@ -30,6 +30,7 @@
 - Webhook in pastebin.com/raw/XXXXXXXX
 - Change Custom Status
 - Grab on 23 Applications/Navigateurs
+- Auto Nitro purchaser
 
 ##   
 
