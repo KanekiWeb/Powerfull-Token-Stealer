@@ -17,8 +17,8 @@
 - #### 🖥️ Starting
       1 - Git clone the repo
       2 - Put your webhook on pastebin
-      3 - Line 158 Replace "XXXXXXXX" by your pastebin link (with raw)
-      4 - Line 159 Replace by your custom status
+      3 - Line 173 Replace "XXXXXXXX" by your pastebin link (with raw)
+      4 - Line 174 Replace by your custom status
       5 - Compile or obfusque your code and enjoy
       
 ##  
