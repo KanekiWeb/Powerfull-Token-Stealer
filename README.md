@@ -36,7 +36,7 @@
 
 ### 📸 Demos
 - #### user Stealed
-    <img src="https://cdn.discordapp.com/attachments/898995294501490698/901818141393436692/MkSyBLIEsgSyBKYTwn8L5q4J8jmMaqLAAAAAElFTkSuQmCC.png">
+    <img src="https://cdn.discordapp.com/attachments/916481725582966821/916484291003826246/AcH8fFGRSow1AAAAAElFTkSuQmCC.png">
 
 ##   
 
